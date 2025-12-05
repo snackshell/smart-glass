@@ -22,6 +22,7 @@ class GeminiLiveService {
   Function(Uint8List)? onAudioReceived;
   Function(String)? onTextReceived;
   Function(String)? onError;
+  Function(bool)? onConnectionChanged;
 
   bool get isConnected => _isConnected;
 
@@ -104,6 +105,10 @@ class GeminiLiveService {
               "prebuilt_voice_config": { "voice_name": "Zephyr" }
             }
           }
+        },
+        "context_window_compression": {
+          "trigger_tokens": 25600,
+          "sliding_window": { "target_tokens": 12800 }
         }
       }
     };
