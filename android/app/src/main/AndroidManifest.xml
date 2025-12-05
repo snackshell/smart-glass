@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"/>
 
     <application
-        android:label="rayee"
+        android:label="Rayee"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -50,3 +50,4 @@
         </intent>
     </queries>
 </manifest>
+
