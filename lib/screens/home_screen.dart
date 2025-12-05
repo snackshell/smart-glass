@@ -73,9 +73,9 @@ class HomeScreen extends StatelessWidget {
 
           // Bottom Controls Area
           Container(
-            height: 250,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(
+              mainAxisSize: MainAxisSize.min, // Use minimum space needed
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Status Text

@@ -1,5 +1,5 @@
 class EspCameraService {
-  String _ipAddress = "10.110.64.205"; // Default
+  String _ipAddress = "10.112.131.205"; // Default Static IP
   final String _streamPath = "/stream"; // Common MJPEG path for ESP32-CAM
 
   void setIpAddress(String ip) {

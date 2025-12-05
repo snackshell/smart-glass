@@ -1,4 +1,5 @@
 name: rayee
+description: A smart-glasses companion app for blind and visually-impaired users.
 publish_to: "none"
 version: 1.0.0+1
 
@@ -17,6 +18,10 @@ dependencies:
   provider: ^6.0.0
   shared_preferences: ^2.2.0
   google_fonts: ^4.0.4
+  http: ^1.0.0
+  flutter_background_service: ^5.0.0
+  flutter_local_notifications: ^17.0.0
+  audio_service: ^0.18.0
 
   # Icons
   cupertino_icons: ^1.0.2

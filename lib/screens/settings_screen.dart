@@ -163,6 +163,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
+          // Resolution Settings
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2A2A2A),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Camera Resolution",
+                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                DropdownButtonFormField<int>(
+                  dropdownColor: const Color(0xFF333333),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: const Color(0xFF333333),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  value: 10, // Default UXGA (10)
+                  items: const [
+                    DropdownMenuItem(value: 13, child: Text("UXGA (1600x1200)")),
+                    DropdownMenuItem(value: 12, child: Text("SXGA (1280x1024)")),
+                    DropdownMenuItem(value: 10, child: Text("XGA (1024x768)")),
+                    DropdownMenuItem(value: 9, child: Text("SVGA (800x600)")),
+                    DropdownMenuItem(value: 8, child: Text("VGA (640x480)")),
+                    DropdownMenuItem(value: 6, child: Text("QVGA (320x240)")),
+                  ],
+                  onChanged: (val) {
+                    if (val != null) appState.setResolution(val);
+                  },
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
           // Debug View
           Container(
             decoration: BoxDecoration(

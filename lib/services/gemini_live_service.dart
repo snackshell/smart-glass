@@ -21,7 +21,7 @@ class GeminiLiveService {
   // Callbacks
   Function(Uint8List)? onAudioReceived;
   Function(String)? onTextReceived;
-  Function(bool)? onConnectionChanged;
+  Function(String)? onError;
 
   bool get isConnected => _isConnected;
 
@@ -43,10 +43,11 @@ class GeminiLiveService {
         onDone: () {
           _isConnected = false;
           onConnectionChanged?.call(false);
-          _rotateKey(); // Rotate key on disconnection/error
+          _rotateKey(); 
         },
         onError: (error) {
           print("Gemini WebSocket Error: $error");
+          onError?.call(error.toString());
           _isConnected = false;
           onConnectionChanged?.call(false);
           _rotateKey();
@@ -61,10 +62,24 @@ class GeminiLiveService {
 
     } catch (e) {
       print("Failed to connect to Gemini: $e");
+      onError?.call(e.toString());
       _isConnected = false;
       onConnectionChanged?.call(false);
       _rotateKey();
     }
+  }
+
+  // ... (existing methods) ...
+
+  void sendEndTurn() {
+    if (!_isConnected || _channel == null) return;
+
+    final msg = {
+      "client_content": {
+        "turn_complete": true
+      }
+    };
+    _channel!.sink.add(jsonEncode(msg));
   }
 
   void _rotateKey() {
@@ -75,6 +90,13 @@ class GeminiLiveService {
     final setupMsg = {
       "setup": {
         "model": "models/gemini-2.5-flash-native-audio-preview-09-2025",
+        "system_instruction": {
+          "parts": [
+            {
+              "text": "You are a smart glass guide for a blind person. You always speak in Tigrinya natively. When asked to explain an image, focus on obstacles and navigation help."
+            }
+          ]
+        },
         "generation_config": {
           "response_modalities": ["AUDIO"],
           "speech_config": {
@@ -100,6 +122,42 @@ class GeminiLiveService {
             "data": base64Audio
           }
         ]
+      }
+    };
+    _channel!.sink.add(jsonEncode(msg));
+  }
+
+  void sendImageFrame(Uint8List imageData) {
+    if (!_isConnected || _channel == null) return;
+
+    final base64Image = base64Encode(imageData);
+    final msg = {
+      "realtime_input": {
+        "media_chunks": [
+          {
+            "mime_type": "image/jpeg",
+            "data": base64Image
+          }
+        ]
+      }
+    };
+    _channel!.sink.add(jsonEncode(msg));
+  }
+
+  void sendText(String text) {
+    if (!_isConnected || _channel == null) return;
+
+    final msg = {
+      "client_content": {
+        "turns": [
+          {
+            "role": "user",
+            "parts": [
+              {"text": text}
+            ]
+          }
+        ],
+        "turn_complete": true
       }
     };
     _channel!.sink.add(jsonEncode(msg));
