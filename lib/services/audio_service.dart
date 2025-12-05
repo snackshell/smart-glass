@@ -50,7 +50,7 @@ class AudioService {
 
   Future<void> dispose() async {
     await stopRecording();
-    await _recorder.dispose();
-    await _player.dispose();
+    _recorder.dispose();
+    _player.dispose();
   }
 }
