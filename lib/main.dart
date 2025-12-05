@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'state/app_state.dart';
 import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
+import 'services/background_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
